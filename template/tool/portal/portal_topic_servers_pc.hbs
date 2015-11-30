@@ -1,0 +1,117 @@
+<!--localtest-->
+<iframe src="http://www.jx3pve.com/iframe/header" height="134px" width="100%"></iframe>
+<link rel="stylesheet" href="http://app.jx3pve.com/css/app/include/global.css" type="text/css" />
+<!--localtest-->
+
+<!--{template common/header}-->
+<link rel="stylesheet" href="http://app.jx3pve.com/css/app/servers_pc.css" type="text/css" />
+
+<div class="app-container">
+
+    <div class="wp">
+    
+        <div class="app-header">
+            <div class="m-title">
+                <h1 class="title">全区服开服监控记录</h1>
+                <p class="ac">
+                    <a href="">测试一段公告文字 <em>2016/00/00</em></a>
+                    <!--{block/1774}-->
+                </p>
+            </div>
+            <div class="m-banner">
+                
+            </div>
+            <div class="m-extend">
+                <a class="m-help" href="http://www.jx3pve.com/misc.php?mod=faq&action=faq&id=54&messageid=133" target="_blank"><i></i>使用帮助</a>
+                <div class="m-share">
+                    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a></div>
+                    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                </div>
+                <div class="m-search">
+                    <!--js:当获取焦点时给.search添加.focus-->
+                    <form class="search" action="">
+                        <input type="text" placeholder="输入服务器名称快速查找">
+                        <button type="submit">搜索</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-main">
+
+            <div class="app-sidebar">
+                <!--{template app_sidebar}-->
+            </div>
+
+            <div class="app-content">
+                <ul class="app-servers-list">
+                    <li class="app-servers-list-item app-servers-list-header">
+                        <span class="daqu">大区</span>
+                        <span class="fwq">服务器</span>
+                        <span class="status">状态</span>
+                        <span class="recent">最近开服记录</span>
+                        <span class="history">上一次记录</span>
+                        <span class="top">置顶</span>
+                        <span class="fav">收藏</span>
+                        <span class="feed">订阅</span>
+                    </li>
+                    <li class="app-servers-list-item">
+                        <span class="daqu">网通一二区</span>
+                        <span class="fwq">长安城城</span>
+                         <!--畅通状态1添加status-1-->
+                        <span class="status status-1">畅通</span>
+                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
+                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
+                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
+                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+                    </li>
+                    <li class="app-servers-list-item">
+                        <span class="daqu">网通一二区</span>
+                        <span class="fwq">长安城城</span>
+                        <!--爆满状态2添加status-2-->
+                        <span class="status status-2">爆满</span>
+                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
+                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
+                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
+                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+                    </li>
+                    <li class="app-servers-list-item">
+                        <span class="daqu">网通一二区</span>
+                        <span class="fwq">长安城城</span>
+                        <!--维护状态3添加status-3-->
+                        <span class="status status-3">维护</span>
+                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
+                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
+                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
+                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+                    </li>
+                    {{#repeat 10}}
+                    <li class="app-servers-list-item">
+                        <span class="daqu">网通一二区</span>
+                        <span class="fwq">长安城城</span>
+                        <span class="status status-1">畅通</span>
+                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
+                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
+                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
+                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+                    </li>
+                    {{/repeat}}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="http://app.jx3pve.com/js/app/servers_pc.js"></script>
+<!--{template common/footer}-->
+
+<!--localtest-->
+<iframe src="http://www.jx3pve.com/iframe/footer" height="89px" width="100%"></iframe>
+<!--localtest-->
