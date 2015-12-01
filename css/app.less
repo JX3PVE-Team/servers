@@ -1,0 +1,41 @@
+@import url('app/include/var.less');
+@import url('app/include/base.less');
+@import url('app/include/reset.less');
+
+body{
+	padding-bottom:60px;
+}
+.app-footer{
+	.pf;.lb(0,0);
+	.w(100%);
+	.fzlh(15px,60px);
+	border-top:1px solid #ddd;
+	background:url('@{app}common/footer_bg.png') repeat-x 0 0;
+	ul{.clearfix;}
+	li{.w(33%);.x;}
+	a{.db;}
+	.color(#888,#666,#666);
+
+	.item-2{.auto(x);}
+	.item-1{
+		.pr;
+		.fl;border-right:1px solid #ddd;
+		&:after{
+			content:'';
+			.db;.size(1px,100%);
+			border-right:1px solid #fff;
+			.pa;.lt(100%,0);
+		}
+	}
+	.item-3{
+		.pr;
+		.fr;border-left:1px solid #ddd;
+		&:after{
+			content:'';
+			.db;.size(1px,100%);
+			border-right:1px solid #fff;
+			.pa;.lt(0,0);
+			margin-left:-1px;
+		}
+	}
+}
