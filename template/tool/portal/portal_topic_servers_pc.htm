@@ -1,5 +1,36 @@
 <!--{template common/header}-->
 <link rel="stylesheet" href="http://app.jx3pve.com/css/servers_pc.css" type="text/css" />
+<script id="template_server_items" type="text/html">
+  <li class="app-servers-list-item app-servers-list-header">
+      <span class="daqu">大区</span>
+      <span class="fwq">服务器</span>
+      <span class="status">状态</span>
+      <span class="recent">最近开服记录</span>
+      <span class="history">上一次记录</span>
+      <span class="top">置顶</span>
+      <span class="fav">收藏</span>
+      <span class="feed">订阅</span>
+  </li>
+  <!--第一条被置顶的条目添加.app-servers-list-item-top-->
+  <!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->
+  <!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->
+  <!--畅通状态1添加status-1-->
+  <!--爆满状态2添加status-2-->
+  <!--维护状态3添加status-3-->
+  {{each serverList as value index}} 
+    <li class="app-servers-list-item">
+        <span class="daqu">网通一二区</span>
+        <span class="fwq">长安城城</span>
+        <span class="status status-1">畅通</span>
+        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
+        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+        <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
+        <span class="top" data-id=""><i class="u-icon-top istop" title="取消置顶">置顶</i></span>
+        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
+        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+    </li>
+  {{/each}}
+</script>
 
 <div class="app-container">
 
@@ -25,8 +56,8 @@
                 <div class="m-search">
                     <!--js:当获取焦点时给.search添加.focus-->
                     <form class="search" action="">
-                        <input type="text" placeholder="输入服务器名称快速查找">
-                        <button type="submit">搜索</button>
+                        <input type="text" placeholder="输入服务器名称快速查找" id="search_txt">
+                        <button id="search_btn">搜索</button>
                     </form>
                 </div>
             </div>
@@ -47,55 +78,8 @@
             </script>
 
             <div class="app-content">
-                <ul class="app-servers-list">
-                    <li class="app-servers-list-item app-servers-list-header">
-                        <span class="daqu">大区</span>
-                        <span class="fwq">服务器</span>
-                        <span class="status">状态</span>
-                        <span class="recent">最近开服记录</span>
-                        <span class="history">上一次记录</span>
-                        <span class="top">置顶</span>
-                        <span class="fav">收藏</span>
-                        <span class="feed">订阅</span>
-                    </li>
-                    <!--第一条被置顶的条目添加.app-servers-list-item-top-->
-                    <li class="app-servers-list-item app-servers-list-item-top">
-                        <span class="daqu">网通一二区</span>
-                        <span class="fwq">长安城城</span>
-                        <!--畅通状态1添加status-1-->
-                        <span class="status status-1">畅通</span>
-                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
-                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
-                        <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
-                        <span class="top"><i class="u-icon-top istop" title="取消置顶">置顶</i></span>
-                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
-                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
-                    </li>
-                    <!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->
-                    <li class="app-servers-list-item app-servers-list-item-fav" style="background:#F790C3;">
-                        <span class="daqu">网通一二区</span>
-                        <span class="fwq">长安城城</span>
-                        <!--爆满状态2添加status-2-->
-                        <span class="status status-2">爆满</span>
-                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
-                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
-                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
-                        <!--当点击收藏后，给i添加.isfav，并将title修改为"取消收藏"-->
-                        <span class="fav"><i class="u-icon-fav isfav" title="取消收藏">收藏</i></span>
-                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
-                    </li>
-                    <!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->
-                    <li class="app-servers-list-item app-servers-list-item-normal">
-                        <span class="daqu">网通一二区</span>
-                        <span class="fwq">长安城城</span>
-                        <!--维护状态3添加status-3-->
-                        <span class="status status-3">维护</span>
-                        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
-                        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
-                        <span class="top"><i class="u-icon-top" title="置顶">置顶</i></span>
-                        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
-                        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
-                    </li>
+                <ul class="app-servers-list" id="app-servers-list">
+                   
                 </ul>
             </div>
 
@@ -146,6 +130,5 @@
     </div>
 
 </div>
-
 <script src="http://app.jx3pve.com/js/app/servers_pc.js"></script>
 <!--{template common/footer}-->
