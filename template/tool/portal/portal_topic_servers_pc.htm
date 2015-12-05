@@ -17,17 +17,22 @@
   <!--畅通状态1添加status-1-->
   <!--爆满状态2添加status-2-->
   <!--维护状态3添加status-3-->
-  {{each serverList as value index}} 
-    <li class="app-servers-list-item">
-        <span class="daqu">网通一二区</span>
-        <span class="fwq">长安城城</span>
-        <span class="status status-1">畅通</span>
-        <span class="recent">2015/08/08 12:00<em>（本周一）</em></span>
-        <span class="history">2015/08/08 12:00<em>（上周四）</em></span>
+  {{each serverList as server index}} 
+    <li class="app-servers-list-item
+        {{if server.isTop}}app-servers-list-item-top{{/if}}
+        {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}
+        {{server | getNormalClass}}
+        status-{{server.status}}
+        ">
+        <span class="daqu">{{server.area}}</span>
+        <span class="fwq">{{server.name}}</span>
+        <span class="status status-1">{{server.status | getStatusText}}</span>
+        <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>
+        <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>
         <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
-        <span class="top" data-id=""><i class="u-icon-top istop" title="取消置顶">置顶</i></span>
-        <span class="fav"><i class="u-icon-fav" title="收藏">收藏</i></span>
-        <span class="feed"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+        <span class="top" data-id="{{server.ip}}"><i class="u-icon-top istop" title="{{server.isTop | getTopText}}">置顶</i></span>
+        <span class="fav" data-id="{{server.ip}}"><i class="u-icon-fav"  title="{{server.isCollect | getCollectText}}">收藏</i></span>
+        <span class="feed" data-id="{{server.ip}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
     </li>
   {{/each}}
 </script>
@@ -39,13 +44,9 @@
         <div class="app-header">
             <div class="m-title">
                 <h1 class="til">开服监控与记录</h1>
-                <p class="ac">
-                    <!--{block/1774}-->
-                </p>
+                <p class="ac"><!--{block/1774}--></p>
             </div>
-            <div class="m-banner">
-                
-            </div>
+            <div class="m-banner"></div>
             <div class="m-extend">
                 <a class="m-help" href="./misc.php?mod=faq&action=faq&id=54&messageid=133" target="_blank"><i></i>使用帮助</a>
                 <a class="m-error" href="./feedback" target="_blank"><i></i>数据异常</a>

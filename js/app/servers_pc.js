@@ -20,6 +20,20 @@ H.ready(['jquery', 'template'],function(){
       
     }
     
+    template.helper('getNormalClass', function (server) {
+      console.log(server);
+      return "value";
+    });
+    template.helper('getTopText', function (isTop) {
+      console.log(isTop);
+      return "value";
+    });
+    template.helper('getCollectText', function (isTop) {
+      console.log(isTop);
+      return "value";
+    });
+    
+    
     jQuery(function($){
       //待编译源码
       var serverItemsRender = template('template_server_items');
