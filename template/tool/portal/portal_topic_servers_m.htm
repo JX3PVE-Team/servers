@@ -1,6 +1,37 @@
 <!--{subtemplate app/header_m}-->
 <link rel="stylesheet" href="http://app.jx3pve.com/css/servers_m.css" type="text/css"/>
-
+<script id="template_server_area_options" type="text/html">
+  {{each serverList as server index}}
+  <div class="m-result">
+      <div class="m-info">
+          {{server.area}} > {{server.name}}
+          <span class="status status-{{server.status}}">
+              {{server.status | getStatusText}}
+          </span>
+      </div>
+      <div class="m-info">
+          最新开服记录
+          <span class="recent">
+              {{server.latest}}<em>（{{server.latest | getXQDay}}）</em>
+          </span>
+      </div>
+      <div class="m-info">
+          上一次记录
+          <span class="history">
+              {{server.history}}<em>（{{server.history | getXQDay}}）</em>
+          </span>
+      </div>
+      <div class="m-panel">
+          <ul>
+            <!-- 已结操作后同时还要给li添加.has -->
+            <li class="top" data-id="{{server.ip}}" data-top="{{server.top}}"><i class="u-icon-top istop"></i><b>{{server.isTop | getTopText}}</b></li>
+            <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"></i><b>{{server.isCollect | getCollectText}}</b></li>
+            <!-- <li class="feed" data-id="{{server.ip}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->
+          </ul>
+      </div>
+  </div>
+  {{/each}}
+</script>
 <div class="app-header">
 	<h1 class="m-title">开服监控与记录</h1>
 	<a class="m-help" href="javascript:void(0)"><i></i>帮助指南</a>
@@ -8,59 +39,30 @@
 
 <div class="app-container">
 	<!-- A.首屏,选择或搜索 -->
-	<div class="app-content" style="display:none">
+	<div class="app-content" id="chooseAndSearchContent">
 		<div class="m-filter">
-			<select name="" id="">
-				<option value="">请选择大区</option>
-			</select>
-			<select name="" id="">
-				<option value="">请选择服务器</option>
-			</select>
+			<select id="chooseArea"></select>
+			<select id="chooseServer"></select>
 		</div>
 		<p class="m-or">或</p>
 		<div class="m-search">
-			<form class="search" action="">
-                <input type="text" placeholder="输入服务器名称快速查找">
-                <button type="submit">搜索</button>
+			<form class="search" onsubmit="return false">
+                <input type="text" placeholder="输入服务器名称快速查找" id="search_txt">
+                <button id="searchBtn">搜索</button>
             </form>
 		</div>
-		<a class="u-btn-go" href="javascript:void(0)">点击查询</a>
+		<a class="u-btn-go" href="javascript:void(0)"  id="searchLink">点击查询</a>
 		<p class="m-ac"><i></i><!--{block/1774}--></p>
 	</div>
 
 	<!-- B.搜索后结果 或 登录后点击中央按钮我的 -->
-	<div class="app-content">
-		<div class="m-result">
-			<div class="m-info">
-				电信一区 > 长安城
-				<span class="status status-1">
-					畅通
-				</span>
-			</div>
-			<div class="m-info">
-				最新开服记录
-				<span class="recent">
-					2015/08/08 12:00<em>（本周一）</em>
-				</span>
-			</div>
-			<div class="m-info">
-				最新开服记录
-				<span class="history">
-					2015/08/08 12:00<em>（上周四）</em>
-				</span>
-			</div>
-			<div class="m-panel">
-				<ul>
-					<!-- 已结操作后同时还要给li添加.has -->
-					<li class="has top"><i class="u-icon-top istop"></i><b>取消置顶</b></li>
-                    <li class="fav"><i class="u-icon-fav"></i><b>收藏</b></li>
-                    <!-- <li class="feed"><i class="u-icon-feed"></i><b>订阅</b></li> -->
-				</ul>
-			</div>
-		</div>
-		<a class="u-btn-go" href="javascript:void(0)">返回查找</a>
+	<div class="app-content" id="showDetailsResult" style="display:none">
+	    <div id="searchResult">
+	      
+	    </div>
+		<a class="u-btn-go" href="javascript:void(0)" id="backSearch">返回查找</a>
 	</div>
 </div>
 
-<script src="http://app.jx3pve.com/js/app/servers_m.js"></script>
+<script src="http://js.jx3pve.com/js/lib/template.js"></script>
 <!--{subtemplate app/footer_m}-->

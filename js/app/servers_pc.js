@@ -77,8 +77,6 @@ H.ready(['jquery', 'template'],function(){
     
     jQuery(function($){
       var template = window.template;
-      
-
               
       template.helper('getNormalClass', function (server) {
         if(server.isTop || server.isCollect){
