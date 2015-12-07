@@ -24,8 +24,8 @@
       <div class="m-panel">
           <ul>
             <!-- 已结操作后同时还要给li添加.has -->
-            <li class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top istop"></i><b>{{server.isTop | getTopText}}</b></li>
-            <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"></i><b>{{server.isCollect | getCollectText}}</b></li>
+            <li class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}"></i><b>{{server.isTop | getTopText}}</b></li>
+            <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"></i><b>{{server.isCollect | getCollectText}}</b></li>
             <!-- <li class="feed" data-id="{{server.ip}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->
           </ul>
       </div>
