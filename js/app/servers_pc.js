@@ -56,15 +56,8 @@ H.ready(['jquery', 'template'],function(){
         value: ((isTop + "") == "1" ? 0 : 1)
       }, cb)
     }
-            
-    //收藏
-    var letServerFav = function(ip, isCollect, cb){
-      jQuery.get("/api/server/action.php", {
-        do: 'collect',
-        serverip: ip,
-        value: ((isCollect + "") == "1" ? 0 : 1)
-      }, cb)
-    }
+    
+   
     //订阅
     var letServerFeed = function(ip, isFeed,cb){
       return;
@@ -78,6 +71,26 @@ H.ready(['jquery', 'template'],function(){
     jQuery(function($){
       var template = window.template;
               
+      $(".app-dialog .app-dialog-fav-ui").find(".u-btn-go").click(function(){
+        var ip = $(this).data("ip");
+        var value = ($(this).data("isCollect") + "") == "1" ? 0 : 1;
+        jQuery.get("/api/server/action.php", {
+          do: 'collect',
+          serverip: ip,
+          backgroundcolor: "#0084ff",
+          value: value
+        }, function(){console.log(arguments)});
+      })
+      //收藏
+      var letServerFav = function(ip, isCollect, cb){
+
+        $(".app-dialog").show();
+        $(".app-dialog").find(".app-dialog-fav-ui").show();
+        $(".app-dialog .app-dialog-fav-ui").find(".u-btn-go").data("ip", ip).data("isCollect", isCollect)
+
+
+      }
+      
       template.helper('getNormalClass', function (server) {
         if(server.isTop || server.isCollect){
           return;
