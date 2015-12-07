@@ -52,7 +52,7 @@ H.ready(['jquery', 'template'],function(){
     var letServerTop = function(ip, isTop, cb){
       jQuery.get("/api/server/action.php", {
         do: 'top',
-        serverIp: ip,
+        serverip: ip,
         value: ((isTop + "") == "1" ? 0 : 1)
       }, cb)
     }

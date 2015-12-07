@@ -129,7 +129,7 @@ $(function(){
   var letServerFav = function(ip, isCollect, cb){
     jQuery.get("/api/server/action.php", {
       do: 'collect',
-      serverIp: ip,
+      serverip: ip,
       value: ((isCollect + "") == "1" ? 0 : 1)
     }, cb)
   }
@@ -156,7 +156,12 @@ $(function(){
     searchBtnFlag = 0;
     $("#chooseAndSearchContent").slideUp();
     $("#showDetailsResult").slideDown();
-    var result = doSearchByIp($("#chooseServer").val());
+    var result = null;
+    if($("#search_txt").val()){
+      result = doSearch(searchText);
+    }else{
+       result = doSearchByIp($("#chooseServer").val());
+    }
     renderResult({serverList:result});
   });
   
