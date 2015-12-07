@@ -30,7 +30,7 @@
         <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>
         <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>
         <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
-        <span class="top" data-id="{{server.ip}}" data-top="{{server.top}}"><i class="u-icon-top istop" title="{{server.isTop | getTopText}}">置顶</i></span>
+        <span class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top istop" title="{{server.isTop | getTopText}}">置顶</i></span>
         <span class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"  title="{{server.isCollect | getCollectText}}">收藏</i></span>
         <span class="feed" data-id="{{server.ip}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
     </li>

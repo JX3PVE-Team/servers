@@ -4,7 +4,7 @@
 */
 $(function(){
   
-  var tSource =  ' {{each serverList as server index}}\n<div class="m-result">\n    <div class="m-info">\n        {{server.area}} > {{server.name}}\n        <span class="status status-{{server.status}}">\n            {{server.status | getStatusText}}\n        </span>\n    </div>\n    <div class="m-info">\n        最新开服记录\n        <span class="recent">\n            {{server.latest}}<em>（{{server.latest | getXQDay}}）</em>\n        </span>\n    </div>\n    <div class="m-info">\n        上一次记录\n        <span class="history">\n            {{server.history}}<em>（{{server.history | getXQDay}}）</em>\n        </span>\n    </div>\n    <div class="m-panel">\n        <ul>\n          <!-- 已结操作后同时还要给li添加.has -->\n          <li class="top" data-id="{{server.ip}}" data-top="{{server.top}}"><i class="u-icon-top istop"></i><b>{{server.isTop | getTopText}}</b></li>\n          <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"></i><b>{{server.isCollect | getCollectText}}</b></li>\n          <!-- <li class="feed" data-id="{{server.ip}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->\n        </ul>\n    </div>\n</div>\n{{/each}}';
+  var tSource = '{{each serverList as server index}}\n  <div class="m-result">\n      <div class="m-info">\n          {{server.area}} > {{server.name}}\n          <span class="status status-{{server.status}}">\n              {{server.status | getStatusText}}\n          </span>\n      </div>\n      <div class="m-info">\n          最新开服记录\n          <span class="recent">\n              {{server.latest}}<em>（{{server.latest | getXQDay}}）</em>\n          </span>\n      </div>\n      <div class="m-info">\n          上一次记录\n          <span class="history">\n              {{server.history}}<em>（{{server.history | getXQDay}}）</em>\n          </span>\n      </div>\n      <div class="m-panel">\n          <ul>\n            <!-- 已结操作后同时还要给li添加.has -->\n            <li class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top istop"></i><b>{{server.isTop | getTopText}}</b></li>\n            <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"></i><b>{{server.isCollect | getCollectText}}</b></li>\n            <!-- <li class="feed" data-id="{{server.ip}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->\n          </ul>\n      </div>\n  </div>\n  {{/each}}';
   //待编译源码
   var serverItemsRender = template.compile(tSource);
   
@@ -120,7 +120,7 @@ $(function(){
   var letServerTop = function(ip, isTop, cb){
     jQuery.get("/api/server/action.php", {
       do: 'top',
-      serverIp: ip,
+      serverip: ip,
       value: ((isTop + "") == "1" ? 0 : 1)
     }, cb)
   }
@@ -129,7 +129,7 @@ $(function(){
   var letServerFav = function(ip, isCollect, cb){
     jQuery.get("/api/server/action.php", {
       do: 'collect',
-      serverIp: ip,
+      serverip: ip,
       value: ((isCollect + "") == "1" ? 0 : 1)
     }, cb)
   }
@@ -138,12 +138,7 @@ $(function(){
     loadServer($(this).val());
   });
   
-  var searchBtnFlag = 0;
-  var searchLinkFlag = 0;
-  
   $("#searchBtn").click(function(){
-    searchBtnFlag = 1;
-    searchLinkFlag = 0;
     $("#chooseAndSearchContent").slideUp();
     $("#showDetailsResult").slideDown();
     var searchText = $("#search_txt").val();
@@ -152,11 +147,14 @@ $(function(){
   });
   
   $("#searchLink").click(function(){
-    searchLinkFlag = 1;
-    searchBtnFlag = 0;
     $("#chooseAndSearchContent").slideUp();
     $("#showDetailsResult").slideDown();
-    var result = doSearchByIp($("#chooseServer").val());
+    var result = null;
+    if($("#search_txt").val()){
+      result = doSearch($("#search_txt").val());
+    }else{
+      result = doSearchByIp($("#chooseServer").val());
+    }
     renderResult({serverList:result});
   });
   
@@ -167,11 +165,13 @@ $(function(){
   
   var doActionAfterUserDone = function(){
      getServerList(null, function(data){
-        if(searchLinkFlag){
-           renderResult({serverList: doSearchByIp($("chooseServer").val())});
-        }else if(searchBtnFlag){
-          renderResult({serverList:doSearch($("#search_txt").val())});
+       var result = null;
+       if($("#search_txt").val()){
+          result = doSearch($("#search_txt").val());
+        }else{
+          result = doSearchByIp($("#chooseServer").val());
         }
+        renderResult({serverList: result});
       }, true);
   };
   

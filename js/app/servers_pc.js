@@ -3,7 +3,7 @@
  Date: 2015-12-03
 */
 H.ready(['jquery', 'template'],function(){
-  var tSource = '<li class="app-servers-list-item app-servers-list-header">\n    <span class="daqu">大区</span>\n    <span class="fwq">服务器</span>\n    <span class="status">状态</span>\n    <span class="recent">最近开服记录</span>\n    <span class="history">上一次记录</span>\n    <span class="top">置顶</span>\n    <span class="fav">收藏</span>\n    <span class="feed">订阅</span>\n</li>\n<!--第一条被置顶的条目添加.app-servers-list-item-top-->\n<!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->\n<!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->\n<!--畅通状态1添加status-1-->\n<!--爆满状态2添加status-2-->\n<!--维护状态3添加status-3-->\n\n{{each serverList as server index}} \n  <li class="app-servers-list-item\n      {{if server.isTop}}app-servers-list-item-top{{/if}}\n      {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}\n      {{server | getNormalClass}}\n      ">\n      <span class="daqu">{{server.area}}</span>\n      <span class="fwq">{{server.name}}</span>\n      <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>\n      <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>\n      <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>\n      <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->\n      <span class="top" data-id="{{server.ip}}" data-top="{{server.top}}"><i class="u-icon-top istop" title="{{server.isTop | getTopText}}">置顶</i></span>\n      <span class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"  title="{{server.isCollect | getCollectText}}">收藏</i></span>\n      <span class="feed" data-id="{{server.ip}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>\n  </li>\n{{/each}}';
+  var tSource = '<li class="app-servers-list-item app-servers-list-header">\n      <span class="daqu">大区</span>\n      <span class="fwq">服务器</span>\n      <span class="status">状态</span>\n      <span class="recent">最近开服记录</span>\n      <span class="history">上一次记录</span>\n      <span class="top">置顶</span>\n      <span class="fav">收藏</span>\n      <span class="feed">订阅</span>\n  </li>\n  <!--第一条被置顶的条目添加.app-servers-list-item-top-->\n  <!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->\n  <!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->\n  <!--畅通状态1添加status-1-->\n  <!--爆满状态2添加status-2-->\n  <!--维护状态3添加status-3-->\n  \n  {{each serverList as server index}} \n    <li class="app-servers-list-item\n        {{if server.isTop}}app-servers-list-item-top{{/if}}\n        {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}\n        {{server | getNormalClass}}\n        ">\n        <span class="daqu">{{server.area}}</span>\n        <span class="fwq">{{server.name}}</span>\n        <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>\n        <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>\n        <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>\n        <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->\n        <span class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top istop" title="{{server.isTop | getTopText}}">置顶</i></span>\n        <span class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav"  title="{{server.isCollect | getCollectText}}">收藏</i></span>\n        <span class="feed" data-id="{{server.ip}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>\n    </li>\n  {{/each}}';
     var allData = [];
   
     var doSort = function(queue){
@@ -52,7 +52,7 @@ H.ready(['jquery', 'template'],function(){
     var letServerTop = function(ip, isTop, cb){
       jQuery.get("/api/server/action.php", {
         do: 'top',
-        serverIp: ip,
+        serverip: ip,
         value: ((isTop + "") == "1" ? 0 : 1)
       }, cb)
     }
@@ -61,7 +61,7 @@ H.ready(['jquery', 'template'],function(){
     var letServerFav = function(ip, isCollect, cb){
       jQuery.get("/api/server/action.php", {
         do: 'collect',
-        serverIp: ip,
+        serverip: ip,
         value: ((isCollect + "") == "1" ? 0 : 1)
       }, cb)
     }
@@ -70,7 +70,7 @@ H.ready(['jquery', 'template'],function(){
       return;
       jQuery.get("/api/server/action.php", {
         do: 'feed',
-        serverIp: ip,
+        serverip: ip,
         value: ((isFeed + "") == "1" ? 0 : 1)
       }, cb)
     }
