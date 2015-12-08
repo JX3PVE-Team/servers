@@ -101,7 +101,7 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
          $(".app-dialog").find('#action_error_'+code).show();
       }
       var $colors = $('#background-color-input').colorPicker({
-        customBG: '#0084ff',
+        customBG: '#ff99cc',
         readOnly: true,
         init: function(elm, colors) { // colors is a different instance (not connected to colorPicker)
           elm.style.backgroundColor = elm.value;

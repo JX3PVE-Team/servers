@@ -1,37 +1,5 @@
 <!--{subtemplate app/header_m}-->
 <link rel="stylesheet" href="http://app.jx3pve.com/css/servers_m.css" type="text/css"/>
-<script id="template_server_area_options" type="text/html">
-  {{each serverList as server index}}
-  <div class="m-result">
-      <div class="m-info">
-          {{server.area}} > {{server.name}}
-          <span class="status status-{{server.status}}">
-              {{server.status | getStatusText}}
-          </span>
-      </div>
-      <div class="m-info">
-          最新开服记录
-          <span class="recent">
-              {{server.latest}}<em>（{{server.latest | getXQDay}}）</em>
-          </span>
-      </div>
-      <div class="m-info">
-          上一次记录
-          <span class="history">
-              {{server.history}}<em>（{{server.history | getXQDay}}）</em>
-          </span>
-      </div>
-      <div class="m-panel">
-          <ul>
-            <!-- 已结操作后同时还要给li添加.has -->
-            <li class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}"></i><b>{{server.isTop | getTopText}}</b></li>
-            <li class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"></i><b>{{server.isCollect | getCollectText}}</b></li>
-            <!-- <li class="feed" data-id="{{server.ip}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->
-          </ul>
-      </div>
-  </div>
-  {{/each}}
-</script>
 <div class="app-header">
 	<h1 class="m-title">开服监控与记录</h1>
 	<a class="m-help" href="javascript:void(0)"><i></i>帮助指南</a>
@@ -62,6 +30,32 @@
 	    </div>
 		<a class="u-btn-go" href="javascript:void(0)" id="backSearch">返回查找</a>
 	</div>
+	
+	<!--错误提示-->
+	<div class="app-content" id="showActionResult" style="display:none">
+       <div class="app-dialog-control-failtips app-dialog-tips" style="display:none;" id="action_error_1">
+            游客，进行此操作请先登录。
+            <a class="u-btn-go" href="./member.php?mod=logging&action=login" target="_blank">登录</a>
+        </div>
+        <div class="app-dialog-control-failtips app-dialog-tips" style="display:none;" id="action_error_2">
+            参数错误
+        </div>
+        <!--普通用户无法使用收藏功能-->
+        <div class="app-dialog-fav-failtips app-dialog-tips" style="display:none;" id="action_error_3">
+            您所在的用户组无法使用收藏功能，点击<a href="./vip" target="_blank">开通VIP会员</a>即可享受全部特权，更有全站资源免费下载，免回复看贴等多项特权。
+            <a class="u-btn-go" href="./vip" target="_blank">开通VIP会员</a>
+        </div>
+        <!--普通用户只能设置1个置顶-->
+        <div class="app-dialog-top-failtips app-dialog-tips" style="display:none;" id="action_error_4">
+            您所在的用户组只能设置1个置顶项，点击<a href="./vip" target="_blank">开通VIP会员</a>即可享受无限制特权，更有全站资源免费下载，免回复看贴等多项特权。
+            <a class="u-btn-go" href="./vip" target="_blank">开通VIP会员</a>
+        </div>
+        <div class="app-dialog-control-failtips app-dialog-tips" style="display:none;" id="action_error_5">
+            颜色参数错误
+        </div>
+		<a class="u-btn-go" href="javascript:void(0)" id="backSearchResult">返回列表</a>
+	</div>
+	
 </div>
 
 <script src="http://js.jx3pve.com/js/lib/template.js"></script>
