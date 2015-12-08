@@ -150,12 +150,30 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
       
       //邦定事件
       var bindUserActionForServerItem = function(){
+        var uid = $("#userUID").val();
+        var groupId = $("#userGroupId").val();
         //置顶
         $("#app-servers-list").find(".app-servers-list-item .top").click(function(){
+          //游客
+          if((""+groupId) == "7"){
+            showError(1);
+            return;
+          }
           letServerTop($(this).data('id'), $(this).data('top'), function(result){showError(result.code);})
         });
+        
         //收藏
         $("#app-servers-list").find(".app-servers-list-item .fav").click(function(){
+          //游客
+          if((""+groupId) == "7"){
+            showError(1);
+            return;
+          }
+          //VIP
+          if(("" + groupId) != "22"){
+            showError(3);
+            return;
+          }
           
           var id = $(this).data("id");
           var value = ($(this).data("collect") + "") == "1" ? 0 : 1;
