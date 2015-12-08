@@ -89,6 +89,8 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
     
     jQuery(function($){
       var template = window.template;
+      var uid = $("#userUID").val();
+      var groupId = $("#userGroupId").val();
       
       var showError = function(code){
          if(code === 0){
@@ -152,10 +154,26 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
       var bindUserActionForServerItem = function(){
         //置顶
         $("#app-servers-list").find(".app-servers-list-item .top").click(function(){
+          //游客
+          if((""+groupId) == "7"){
+            showError(1);
+            return;
+          }
           letServerTop($(this).data('id'), $(this).data('top'), function(result){showError(result.code);})
         });
+        
         //收藏
         $("#app-servers-list").find(".app-servers-list-item .fav").click(function(){
+          //游客
+          if((""+groupId) == "7"){
+            showError(1);
+            return;
+          }
+          //VIP
+          if(("" + groupId) != "22"){
+            showError(3);
+            return;
+          }
           
           var id = $(this).data("id");
           var value = ($(this).data("collect") + "") == "1" ? 0 : 1;
