@@ -1,0 +1,37 @@
+<script id="template_server_items" type="text/html">
+  <li class="app-servers-list-item app-servers-list-header">
+      <span class="daqu">大区</span>
+      <span class="fwq">服务器</span>
+      <span class="status">状态</span>
+      <span class="recent">最近开服记录</span>
+      <span class="history">上一次记录</span>
+      <span class="top">置顶</span>
+      <span class="fav">收藏</span>
+      <span class="feed">订阅</span>
+  </li>
+  <!--第一条被置顶的条目添加.app-servers-list-item-top-->
+  <!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->
+  <!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->
+  <!--畅通状态1添加status-1-->
+  <!--爆满状态2添加status-2-->
+  <!--维护状态3添加status-3-->
+  
+  {{each serverList as server index}} 
+    <li class="app-servers-list-item
+        {{if server.isTop}}app-servers-list-item-top{{/if}}
+        {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}
+        {{server | getNormalClass}}
+        " 
+        {{if isShowBGC(server)}}style="background-color:{{server.backgroundcolor}}"{{/if}}>
+        <span class="daqu">{{server.area}}</span>
+        <span class="fwq">{{server.name}}</span>
+        <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>
+        <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>
+        <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>
+        <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
+        <span class="top" data-id="{{server.id}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}" title="{{server.isTop | getTopText}}">置顶</i></span>
+        <span class="fav" data-id="{{server.id}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"  title="{{server.isCollect | getCollectText}}">收藏</i></span>
+        <span class="feed" data-id="{{server.id}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>
+    </li>
+  {{/each}}
+</script>
