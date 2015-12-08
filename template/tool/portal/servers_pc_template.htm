@@ -26,8 +26,8 @@
       <span class="daqu">{{server.area}}</span>
       <span class="fwq">{{server.name}}</span>
       <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>
-      <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>
-      <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>
+      <span class="recent">{{server.latest}}<em>（{{server.latest | getXQDay}}）</em></span>
+      <span class="history">{{server.history}}<em>（{{server.history | getXQDay}}）</em></span>
       <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->
       <span class="top" data-id="{{server.id}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}" title="{{server.isTop | getTopText}}">置顶</i></span>
       <span class="fav" data-id="{{server.id}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"  title="{{server.isCollect | getCollectText}}">收藏</i></span>
