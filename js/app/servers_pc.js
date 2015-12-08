@@ -1,9 +1,17 @@
 /***
  Author: ec.huyinghuan@gmail.com
  Date: 2015-12-03
+ 
+ 0 操作成功
+1 需要登录
+2 参数错误
+3 需要VIP权限
+4 普通用户置顶一个
+5 颜色参数不正确
+ 
 */
-H.ready(['jquery', 'template'],function(){
-  var tSource = '<li class="app-servers-list-item app-servers-list-header">\n    <span class="daqu">大区</span>\n    <span class="fwq">服务器</span>\n    <span class="status">状态</span>\n    <span class="recent">最近开服记录</span>\n    <span class="history">上一次记录</span>\n    <span class="top">置顶</span>\n    <span class="fav">收藏</span>\n    <span class="feed">订阅</span>\n</li>\n<!--第一条被置顶的条目添加.app-servers-list-item-top-->\n<!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->\n<!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->\n<!--畅通状态1添加status-1-->\n<!--爆满状态2添加status-2-->\n<!--维护状态3添加status-3-->\n\n{{each serverList as server index}} \n  <li class="app-servers-list-item\n      {{if server.isTop}}app-servers-list-item-top{{/if}}\n      {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}\n      {{server | getNormalClass}}\n      ">\n      <span class="daqu">{{server.area}}</span>\n      <span class="fwq">{{server.name}}</span>\n      <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>\n      <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>\n      <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>\n      <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->\n      <span class="top" data-id="{{server.ip}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}" title="{{server.isTop | getTopText}}">置顶</i></span>\n      <span class="fav" data-id="{{server.ip}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"  title="{{server.isCollect | getCollectText}}">收藏</i></span>\n      <span class="feed" data-id="{{server.ip}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>\n  </li>\n{{/each}}';
+H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
+  var tSource =  '<li class="app-servers-list-item app-servers-list-header">\n    <span class="daqu">大区</span>\n    <span class="fwq">服务器</span>\n    <span class="status">状态</span>\n    <span class="recent">最近开服记录</span>\n    <span class="history">上一次记录</span>\n    <span class="top">置顶</span>\n    <span class="fav">收藏</span>\n    <span class="feed">订阅</span>\n</li>\n<!--第一条被置顶的条目添加.app-servers-list-item-top-->\n<!--被收藏的条目添加.app-servers-list-item-fav，并且行内输出自定义的背景色-->\n<!--没有被收藏和置顶的才添加app-servers-list-item-normal，一旦添加了则移除这个类名-->\n<!--畅通状态1添加status-1-->\n<!--爆满状态2添加status-2-->\n<!--维护状态3添加status-3-->\n\n{{each serverList as server index}} \n  <li class="app-servers-list-item\n      {{if server.isTop}}app-servers-list-item-top{{/if}}\n      {{if server.isSubscribe}}app-servers-list-item-fav{{/if}}\n      {{server | getNormalClass}}\n      " \n      {{if isShowBGC(server)}}style="background-color:{{server.backgroundcolor}}"{{/if}}>\n      <span class="daqu">{{server.area}}</span>\n      <span class="fwq">{{server.name}}</span>\n      <span class="status status-{{server.status}}">{{server.status | getStatusText}}</span>\n      <span class="recent">{{server.latest}}<em>({{server.latest | getXQDay}})</em></span>\n      <span class="history">{{server.history}}<em>（{{server.latest | getXQDay}}）</em></span>\n      <!--当点击置顶后，给i添加.istop，并将title修改为"取消置顶"-->\n      <span class="top" data-id="{{server.id}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}" title="{{server.isTop | getTopText}}">置顶</i></span>\n      <span class="fav" data-id="{{server.id}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"  title="{{server.isCollect | getCollectText}}">收藏</i></span>\n      <span class="feed" data-id="{{server.id}}" data-feed="{{server.isFeed}}"><i class="u-icon-feed" title="暂未开放">订阅</i></span>\n  </li>\n{{/each}}';
     var allData = [];
   
     var doSort = function(queue){
@@ -49,35 +57,71 @@ H.ready(['jquery', 'template'],function(){
     }
     
     //置顶
-    var letServerTop = function(ip, isTop, cb){
+    var letServerTop = function(id, isTop, cb){
       jQuery.get("/api/server/action.php", {
         do: 'top',
-        serverip: ip,
+        serverid: id,
         value: ((isTop + "") == "1" ? 0 : 1)
-      }, cb)
+      }, function(result){cb(JSON.parse(result))})
     }
-            
-    //收藏
-    var letServerFav = function(ip, isCollect, cb){
-      jQuery.get("/api/server/action.php", {
-        do: 'collect',
-        serverip: ip,
-        value: ((isCollect + "") == "1" ? 0 : 1)
-      }, cb)
-    }
+    
+   
     //订阅
-    var letServerFeed = function(ip, isFeed,cb){
+    var letServerFeed = function(id, isFeed,cb){
       return;
       jQuery.get("/api/server/action.php", {
         do: 'feed',
-        serverip: ip,
+        serverid: id,
         value: ((isFeed + "") == "1" ? 0 : 1)
-      }, cb)
+      }, function(result){cb(JSON.parse(result))})
+    }
+    
+    //收藏 
+    var letServerFav = function(id, isFav, cb, color){
+      if(!color){color = "#0084ff"}
+      jQuery.get("/api/server/action.php", {
+        do: 'collect',
+        serverid: id,
+        backgroundcolor: color,
+        value: isFav
+      }, function(result){cb(JSON.parse(result))});
     }
     
     jQuery(function($){
       var template = window.template;
-              
+      
+      var showError = function(code){
+         if(code === 0){
+           $(".app-dialog").hide();
+           refreshServerList(true)
+           return;
+         }
+         $(".app-dialog").show();
+         $(".app-dialog").find('.app-dialog-tips').hide();
+         $(".app-dialog").find('#action_error_'+code).show();
+      }
+      var $colors = $('#background-color-input').colorPicker({
+        customBG: '#ff99cc',
+        readOnly: true,
+        init: function(elm, colors) { // colors is a different instance (not connected to colorPicker)
+          elm.style.backgroundColor = elm.value;
+          elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
+        }
+      })
+      
+      
+      $(".app-dialog .app-dialog-fav-ui").find(".u-btn-go").click(function(){
+        var id = $(this).data("id");
+        var value = ($(this).data("isCollect") + "") == "1" ? 0 : 1;
+        letServerFav(id, value, function(result){
+          showError(result.code);
+        }, $("#background-color-input").val())
+      });
+      
+      $(".app-dialog .m-title .close").click(function(){
+        $(".app-dialog").hide();
+      });
+      
       template.helper('getNormalClass', function (server) {
         if(server.isTop || server.isCollect){
           return;
@@ -100,7 +144,7 @@ H.ready(['jquery', 'template'],function(){
       template.helper('getCollectText', function (isCollect) {
         return isCollect ? "取消收藏" : "收藏";
       });
-      
+      template.helper('isShowBGC', function(server){ return server.isCollect && server.backgroundcolor})
       //待编译源码
       var serverItemsRender = template.compile(tSource);
       
@@ -108,15 +152,29 @@ H.ready(['jquery', 'template'],function(){
       var bindUserActionForServerItem = function(){
         //置顶
         $("#app-servers-list").find(".app-servers-list-item .top").click(function(){
-          letServerTop($(this).data('id'), $(this).data('top'), function(){refreshServerList(true)})
+          letServerTop($(this).data('id'), $(this).data('top'), function(result){showError(result.code);})
         });
         //收藏
         $("#app-servers-list").find(".app-servers-list-item .fav").click(function(){
-          letServerFav($(this).data('id'), $(this).data('collect'), function(){refreshServerList(true)})
+          
+          var id = $(this).data("id");
+          var value = ($(this).data("collect") + "") == "1" ? 0 : 1;
+          //取消收藏
+          if(value === 0){
+            letServerFav(id, value, function(result){
+              showError(result.code);
+            });
+            return;
+          }
+          
+          $(".app-dialog").show();
+          $(".app-dialog").find('.app-dialog-tips').hide();
+          $(".app-dialog").find(".app-dialog-fav-ui").show();
+          $(".app-dialog .app-dialog-fav-ui").find(".u-btn-go").data("id", $(this).data('id')).data("isCollect", $(this).data('collect'))
         });
         //订阅
         $("#app-servers-list").find(".app-servers-list-item .feed").click(function(){
-          letServerFeed($(this).data('id'), $(this).data('feed'), function(){refreshServerList(true)})
+          letServerFeed($(this).data('id'), $(this).data('feed'), function(result){showError(result.code);})
         });
       };
       
