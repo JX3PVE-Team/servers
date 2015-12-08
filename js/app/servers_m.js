@@ -3,7 +3,8 @@
  Date: 2015-12-06
 */
 $(function(){
-  
+  var uid = $("#userUID").val();
+  var groupId = $("#userGroupId").val();
   var tSource = '{{each serverList as server index}}\n<div class="m-result">\n   <div class="m-info">\n       {{server.area}} > {{server.name}}\n       <span class="status status-{{server.status}}">\n           {{server.status | getStatusText}}\n       </span>\n   </div>\n   <div class="m-info">\n       最新开服记录\n       <span class="recent">\n           {{server.latest}}<em>（{{server.latest | getXQDay}}）</em>\n       </span>\n   </div>\n   <div class="m-info">\n       上一次记录\n       <span class="history">\n           {{server.history}}<em>（{{server.history | getXQDay}}）</em>\n       </span>\n   </div>\n   <div class="m-panel">\n       <ul>\n         <!-- 已结操作后同时还要给li添加.has -->\n         <li class="top" data-id="{{server.id}}" data-top="{{server.isTop}}"><i class="u-icon-top {{if server.isTop}}istop{{/if}}"></i><b>{{server.isTop | getTopText}}</b></li>\n         <li class="fav" data-id="{{server.id}}" data-collect="{{server.isCollect}}"><i class="u-icon-fav {{if server.isCollect}}isfav{{/if}}"></i><b>{{server.isCollect | getCollectText}}</b></li>\n         <!-- <li class="feed" data-id="{{server.id}}" data-top="{{server.isFeed}}"><i class="u-icon-feed"></i><b>订阅</b></li> -->\n       </ul>\n   </div>\n</div>\n{{/each}}';
   //待编译源码
   var serverItemsRender = template.compile(tSource);
@@ -172,15 +173,19 @@ $(function(){
     $("#showDetailsResult").slideDown();
   });
   
+  var showError = function(code){
+    $("#showDetailsResult").slideUp();
+    $("#showActionResult").slideDown();
+    $("#showActionResult").find(".app-dialog-tips").hide();
+    $('#action_error_'+code).show();
+  }
+  
   var doActionAfterUserDone = function(result){
     result = JSON.parse(result);
     //操作失败！
     var code = result.code;
     if(code != 0){
-      $("#showDetailsResult").slideUp();
-      $("#showActionResult").slideDown();
-      $("#showActionResult").find(".app-dialog-tips").hide();
-      $('#action_error_'+code).show();
+      showError(code);
       return;
     }
     //操作成功!
@@ -198,10 +203,25 @@ $(function(){
   var bindUserActionForServerItem = function(){
     //置顶
     $("#searchResult").find(".top").click(function(){
+      //游客
+      if((""+groupId) == "7"){
+        showError(1);
+        return;
+      }
       letServerTop($(this).data('id'), $(this).data('top'), doActionAfterUserDone);
     });
     //收藏
     $("#searchResult").find(".fav").click(function(){
+      //游客
+      if((""+groupId) == "7"){
+        showError(1);
+        return;
+      }
+      //VIP
+      if(("" + groupId) != "22"){
+        showError(3);
+        return;
+      }
       letServerFav($(this).data('id'), $(this).data('collect'), doActionAfterUserDone);
     });
     //订阅

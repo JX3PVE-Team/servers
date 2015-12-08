@@ -89,6 +89,8 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
     
     jQuery(function($){
       var template = window.template;
+      var uid = $("#userUID").val();
+      var groupId = $("#userGroupId").val();
       
       var showError = function(code){
          if(code === 0){
@@ -150,8 +152,6 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
       
       //邦定事件
       var bindUserActionForServerItem = function(){
-        var uid = $("#userUID").val();
-        var groupId = $("#userGroupId").val();
         //置顶
         $("#app-servers-list").find(".app-servers-list-item .top").click(function(){
           //游客
