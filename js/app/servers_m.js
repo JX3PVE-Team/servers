@@ -55,6 +55,18 @@ $(function(){
   }
   
   //匹配对应的服务器
+  var getMyTopAndFavServerList = function(){
+    var result = [];
+    for(var index = 0; index < allData.length; index++){
+      var server = allData[index];
+      if(server.isTop || server.isCollect){
+        result.push(server);
+      }
+    }
+    return result;
+  }
+  
+  //匹配对应的服务器
   var doSearch = function(serverName){
     if(!serverName){
       return allData;
@@ -142,22 +154,17 @@ $(function(){
     loadServer($(this).val());
   });
   
-  $("#searchBtn").click(function(){
-    $("#chooseAndSearchContent").slideUp();
-    $("#showDetailsResult").slideDown();
-    var searchText = $("#search_txt").val();
-    var result = doSearch(searchText);
-    renderResult({serverList:result});
-  });
+//  $("#searchBtn").click(function(){
+//    var searchText = $("#search_txt").val();
+//    var result = doSearch(searchText);
+//    renderResult({serverList:result});
+//  });
   
   $("#searchLink").click(function(){
-    $("#chooseAndSearchContent").slideUp();
-    $("#showDetailsResult").slideDown();
     var result = null;
     if($("#search_txt").val()){
       result = doSearch($("#search_txt").val());
     }else{
-      console.log(doSearchById($("#chooseServer").val()))
       result = doSearchById($("#chooseServer").val());
     }
     renderResult({serverList:result});
@@ -166,11 +173,18 @@ $(function(){
   $("#backSearch").click(function(){
     $("#showDetailsResult").slideUp();
     $("#chooseAndSearchContent").slideDown();
+    $("#top-back").hide();
   });
   
   $("#backSearchResult").click(function(){
     $("#showActionResult").slideUp();
     $("#showDetailsResult").slideDown();
+  });
+  
+  $("#top-back").click(function(){
+    $("#showDetailsResult").slideUp();
+    $("#chooseAndSearchContent").slideDown();
+    $("#top-back").hide();
   });
   
   var showError = function(code){
@@ -232,8 +246,23 @@ $(function(){
   
   var renderResult = function(result){
     $("#searchResult").html(serverItemsRender(result));
+    if(result.serverList.length > 3){
+      $("#top-back").show();
+    }
+    $("#chooseAndSearchContent").slideUp();
+    $("#showDetailsResult").slideDown();
     bindUserActionForServerItem();
   };
 
   getServerList('', loadArea, true);
+  
+  //底部菜单　我的
+  $(".app-footer .item-2").click(function(){
+    if((""+groupId) == "7"){
+        showError(1);
+        return;
+     }
+     renderResult({serverList:getMyTopAndFavServerList()});
+  })
+  
 });
