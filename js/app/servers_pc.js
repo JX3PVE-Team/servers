@@ -138,7 +138,7 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
       template.helper('getStatusText', function (status) {
         return ['畅通', '爆满', '维护'][status-1] || '未知';
       });
-      template.helper('getXQDay', function (day) {
+      template.helper('getXQDay', function (date) {
         date = date.replace(/^\s/, "");
         var r_year = parseInt(date.substr(0,4));
         var r_month = parseInt(date.substr(5,2));
