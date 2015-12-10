@@ -139,9 +139,21 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
         return ['畅通', '爆满', '维护'][status-1] || '未知';
       });
       template.helper('getXQDay', function (day) {
-        return [
-          "星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"
-        ][new Date(day).getDay()]
+        
+        var recordDate = new Date(day);
+        var recordDay = recordDate.getDay();
+        
+        var text = "本";
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate() - today.getDay();
+        //这周一的开始
+        var toMonday = new Date(year + "-" + month + "-" + day  + " 23:59:59");
+        if(recordDate.getTime() < toMonday.getTime()){
+          text = "上";
+        }
+        return　text　+　["周天", "周一", "周二", "周三", "周四", "周五", "周六"][recordDay]　 　
       });
       template.helper('getCollectText', function (isCollect) {
         return isCollect ? "取消收藏" : "收藏";
