@@ -139,17 +139,20 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
         return ['畅通', '爆满', '维护'][status-1] || '未知';
       });
       template.helper('getXQDay', function (day) {
-        
-        var recordDate = new Date(day);
+        date = date.replace(/^\s/, "");
+        var r_year = parseInt(date.substr(0,4));
+        var r_month = parseInt(date.substr(5,2));
+        var r_day = parseInt(date.substr(8,2));
+
+        var recordDate = new Date(r_year, r_month - 1, r_day);
         var recordDay = recordDate.getDay();
-        
         var text = "本";
         var today = new Date();
         var year = today.getFullYear();
-        var month = today.getMonth() + 1;
+        var month = today.getMonth();
         var day = today.getDate() - today.getDay();
         //这周一的开始
-        var toMonday = new Date(year + "-" + month + "-" + day  + " 23:59:59");
+        var toMonday = new Date(year, month, day);
         if(recordDate.getTime() < toMonday.getTime()){
           text = "上";
         }
