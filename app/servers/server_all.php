@@ -34,18 +34,25 @@ if(time() - filemtime($file) > 30){
 	$return = array('server' => $array, 'status' => $JX3->GetStatus());
 	$return = json_encode($return);
 	file_put_contents($file, $return);
-	foreach ($array as $key => $value) {
-		if (strpos($key, "新服") !== false) {
-			continue;
-		}
-		foreach($value as $serverInfo) {
-			$ipNum = ipton($serverInfo[3]);
-			if (!isset($serverIP[$ipNum])) {
-				echo $key."/".$serverInfo[1]."<br/>";
-				$serverIP[$ipNum] = 1;
-			}
-		}
-	}
+    foreach ($array as $key => $value) {
+        if (strpos($key, "新服") !== false) {
+            continue;
+        }
+        foreach($value as $serverInfo) {
+            $ipNum = ipton($serverInfo[3]);
+            $serverIP[$ipNum][$key][] =  $serverInfo[1];
+
+            /*if (!isset($serverIP[$ipNum])) {
+                echo $key."/".$serverInfo[1]."<br/>";
+                $serverIP[$ipNum] = 1;
+            }*/
+        }
+    }
+    foreach ($serverIP as $k => $v) {
+        foreach ($v as $key => $value) {
+            echo $key."|".implode("/",$value)."<br/>";
+        }
+    }
 } else {
 	$return = json_decode(file_get_contents($file), true);
 	$array = $return['server'];
@@ -54,14 +61,21 @@ if(time() - filemtime($file) > 30){
 		if (strpos($key, "新服") !== false) {
 			continue;
 		}
-		foreach($value as $serverInfo) {
-			$ipNum = ipton($serverInfo[3]);
-			if (!isset($serverIP[$ipNum])) {
-				echo $key."/".$serverInfo[1]."<br/>";
-				$serverIP[$ipNum] = 1;
-			} 
-		}
+        foreach($value as $serverInfo) {
+            $ipNum = ipton($serverInfo[3]);
+            $serverIP[$ipNum][$key][] =  $serverInfo[1];
+
+            /*if (!isset($serverIP[$ipNum])) {
+                echo $key."/".$serverInfo[1]."<br/>";
+                $serverIP[$ipNum] = 1;
+            }*/
+        }
 	}
+    foreach ($serverIP as $k => $v) {
+        foreach ($v as $key => $value) {
+            echo $key."|".implode("/",$value)."<br/>";
+        }
+    }
 }
 function ipton($ip) {
     $ip_arr=explode('.',$ip);//分隔ip段

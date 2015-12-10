@@ -29,6 +29,8 @@ body{
 		.size(13px);.dbi;.y(-2px);margin-right:5px;
 		background:url('@{app}servers/faq.gif') no-repeat 0 0;
 	}
+
+	.none;
 }
 .m-back{
 	.fl;
@@ -86,13 +88,16 @@ body{
 	.auto(x);
 	.db;.w(60%);
 	.fz(15px,52px);.x;
-	background-color:@basecolor;color:#fff;
+	background-color:@basecolor;color:#fff !important;
 	text-decoration:none;
 	.r(3px);
 	&:hover{
 		background-color:lighten(@basecolor,5%);
 		color:#fff;
 	}
+}
+.u-btn-govip{
+	background-color:#c00;
 }
 .m-ac{
 	.x;
