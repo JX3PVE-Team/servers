@@ -53,7 +53,7 @@ if ($do == "collect" || $do == "subscribe") {
         if ($_G['groupid'] != 22) {
             $data = array();
             $data['msg'] = '非VIP用户只能收藏一条';
-            $data['code'] = 6;
+            $data['code'] = 3;
             json_output($data);
         }
     }
