@@ -42,17 +42,20 @@ $serverinfo = C::t('server')->fetch($serverid);
 if (empty($serverinfo)) {
     $data = array();
     $data['msg'] = '参数错误';
-    $data['code'] = 3;
+    $data['code'] = 2;
     json_output($data);
 }
 
 $filed = "is".$do;
 if ($do == "collect" || $do == "subscribe") {
-    if ($_G['groupid'] != 22) {
-        $data = array();
-        $data['msg'] = 'VIP用户才可以进行此操作,先请开通VIP';
-        $data['code'] = 3;
-        json_output($data);
+    $count = C::t('server_member')->fetch_user_iscollect_count($uid);
+    if ($_G['groupid'] != 22 && $count > 0 && $value == 1) {
+        if ($_G['groupid'] != 22) {
+            $data = array();
+            $data['msg'] = '非VIP用户只能收藏一条';
+            $data['code'] = 6;
+            json_output($data);
+        }
     }
 } else {
     $count = C::t('server_member')->fetch_user_istop_count($uid);

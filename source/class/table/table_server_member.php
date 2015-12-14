@@ -19,6 +19,10 @@ class table_server_member extends discuz_table_archive
 		$this->_pk    = 'id';
 		parent::__construct();
 	}
+    
+    public function fetch_user_iscollect_count($uid) {
+        return DB::result_first('SELECT COUNT(*) FROM %t WHERE iscollect=1 and uid = %d ', array($this->_table, $uid));
+    }
 
     public function fetch_user_istop_count($uid) {
         return DB::result_first('SELECT COUNT(*) FROM %t WHERE istop=1 and uid = %d ', array($this->_table, $uid));
