@@ -246,11 +246,11 @@ $(function(){
         showError(1);
         return;
       }
-      //VIP
-      if(("" + groupId) != "22"){
-        showError(3);
-        return;
-      }
+      //VIP 需要VIP才能收藏
+//      if(("" + groupId) != "22"){
+//        showError(3);
+//        return;
+//      }
       letServerFav($(this).data('id'), $(this).data('collect'), doActionAfterUserDone);
     });
     //订阅

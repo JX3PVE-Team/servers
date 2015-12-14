@@ -184,11 +184,11 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
             showError(1);
             return;
           }
-          //VIP
-          if(("" + groupId) != "22"){
-            showError(3);
-            return;
-          }
+          //VIP 需要VIP才能收藏
+//          if(("" + groupId) != "22"){
+//            showError(3);
+//            return;
+//          }
           
           var id = $(this).data("id");
           var value = ($(this).data("collect") + "") == "1" ? 0 : 1;
