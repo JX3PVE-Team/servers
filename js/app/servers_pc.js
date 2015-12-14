@@ -2,12 +2,13 @@
  Author: ec.huyinghuan@gmail.com
  Date: 2015-12-03
  
- 0 操作成功
+0 操作成功
 1 需要登录
 2 参数错误
 3 需要VIP权限
 4 普通用户置顶一个
 5 颜色参数不正确
+6 普通用户收藏1个
  
 */
 H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
@@ -78,7 +79,7 @@ H.ready(['jquery', 'template', 'color', 'jqColor'],function(){
     
     //收藏 
     var letServerFav = function(id, isFav, cb, color){
-      if(!color){color = "#0084ff"}
+      if(!color){color = "#ff9933"}
       jQuery.get("/api/server/action.php", {
         do: 'collect',
         serverid: id,
